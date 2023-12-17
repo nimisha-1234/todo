@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>views.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #8c8c8c; font-style: italic;}
+.s3 { color: #067d17;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+views.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">django.http </span><span class="s0">import </span><span class="s1">HttpResponse</span>
+<span class="s0">from </span><span class="s1">django.shortcuts </span><span class="s0">import </span><span class="s1">render, redirect</span>
+
+<span class="s0">from </span><span class="s1">.forms </span><span class="s0">import </span><span class="s1">TodoForms</span>
+<span class="s0">from </span><span class="s1">.models </span><span class="s0">import </span><span class="s1">Task</span>
+
+
+<span class="s2"># Create your views here.</span>
+
+
+<span class="s0">def </span><span class="s1">index(request):</span>
+    <span class="s1">task1 = Task.objects.all()</span>
+    <span class="s0">if </span><span class="s1">request.method == </span><span class="s3">'POST'</span><span class="s1">:</span>
+        <span class="s1">name = request.POST.get(</span><span class="s3">'task'</span><span class="s1">, </span><span class="s3">''</span><span class="s1">)</span>
+        <span class="s1">priority = request.POST.get(</span><span class="s3">'priority'</span><span class="s1">, </span><span class="s3">''</span><span class="s1">)</span>
+        <span class="s1">date = request.POST.get(</span><span class="s3">'date'</span><span class="s1">, </span><span class="s3">''</span><span class="s1">)</span>
+        <span class="s1">task = Task(name=name, priority=priority, date=date)</span>
+        <span class="s1">task.save()</span>
+    <span class="s0">return </span><span class="s1">render(request, </span><span class="s3">&quot;home.html&quot;</span><span class="s1">, {</span><span class="s3">'task1'</span><span class="s1">: task1})</span>
+
+
+<span class="s0">def </span><span class="s1">delete(request, taskid):</span>
+    <span class="s1">task = Task.objects.get(id=taskid)</span>
+    <span class="s0">if </span><span class="s1">request.method == </span><span class="s3">'POST'</span><span class="s1">:</span>
+        <span class="s1">task.delete()</span>
+        <span class="s0">return </span><span class="s1">redirect(</span><span class="s3">'/'</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">render(request, </span><span class="s3">'delete.html'</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">update(request, id):</span>
+    <span class="s1">task = Task.objects.get(id=id)</span>
+    <span class="s1">form = TodoForms(request.POST </span><span class="s0">or None</span><span class="s1">, request.FILES, instance=task)</span>
+    <span class="s0">if </span><span class="s1">form.is_valid():</span>
+        <span class="s1">form.save()</span>
+        <span class="s0">return </span><span class="s1">redirect(</span><span class="s3">'/'</span><span class="s1">)</span>
+    <span class="s0">return </span><span class="s1">render(request, </span><span class="s3">'edit.html'</span><span class="s1">, {</span><span class="s3">'form'</span><span class="s1">: form, </span><span class="s3">'task'</span><span class="s1">: task})</span></pre>
+</body>
+</html>

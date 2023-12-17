@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>models.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #8c8c8c; font-style: italic;}
+.s3 { color: #1750eb;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+models.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">django.db </span><span class="s0">import </span><span class="s1">models</span>
+
+
+<span class="s2"># Create your models here.</span>
+<span class="s0">class </span><span class="s1">Task(models.Model):</span>
+    <span class="s1">name = models.CharField(max_length=</span><span class="s3">250</span><span class="s1">)</span>
+    <span class="s1">priority = models.IntegerField()</span>
+    <span class="s1">date = models.DateField()</span>
+
+    <span class="s0">def </span><span class="s1">__str__(self):</span>
+        <span class="s0">return </span><span class="s1">self.name</span>
+</pre>
+</body>
+</html>
